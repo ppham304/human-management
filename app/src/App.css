@@ -1,0 +1,170 @@
+@import '~antd/dist/antd.css';
+
+.App {
+    
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.Books, .Users, .LogWork {
+  margin: 10px 100px;
+}
+
+.no-margin-y {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+/* Config for button */
+.button-action {
+  margin: 10px 10px 10px 0;
+}
+
+.add-search-div {
+  margin: 10px 0;
+}
+
+label {
+  text-align: left;
+}
+
+.btn-warning {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-warning:hover {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-warning:focus {
+  color: #fff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+
+.btn-info {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.btn-info:hover {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.btn-info:focus {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-success:focus {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.btn-danger:hover {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.btn-danger:focus {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+/* ----------------- */
+
+.error {
+  color: red;
+  margin-bottom: 20px;
+}
+
+.form-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.form-content {
+    position:fixed;
+    background: white;
+    width: 50%;
+    height: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    padding: 20px;
+}
+
+.input-with-btn {
+  width: 95%;
+}
+
+.btn-plus-with-input, .btn-plus-with-input:hover, .btn-plus-with-input:focus {
+  margin: 0 0 0 10px;
+}
+
+.btn-minus-with-input, .btn-minus-with-input:hover, .btn-minus-with-input:focus {
+  background-color: red;
+  border-color: red;
+  margin: 0 0 0 10px;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-inline-block {
+    display: inline-block;
+}
+
+.display-none {
+    display: none;
+}
