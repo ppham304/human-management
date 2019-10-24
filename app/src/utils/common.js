@@ -1,9 +1,9 @@
+import moment from 'moment';
+import * as Constants from '../constants'
+
 export function formatDate(date) {
 	if(date) {
-		const year = date.substr(0, 4);
-		const month = date.substr(5, 2);
-		const day = date.substr(8, 2);
-		return year + '-' + month + '-' + day;
+		return moment(date).format(Constants.FORMAT_DATE);
 	}
 	return '';
 }

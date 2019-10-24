@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Form, Input, DatePicker } from 'antd';
+import moment from 'moment';
 
 import * as UsersAction from '../../redux/actions/users';
 import * as UsersSelector from '../../redux/selectors/users';
 import * as utils from '../../utils/common';
+import * as Constants from '../../constants'
 
 class UserDetail extends Component {
 	constructor(props) {
@@ -52,14 +54,22 @@ class UserDetail extends Component {
 					});
 				}
 
+				let formatBirthday, formatJoinedDate, formatExpirationDate;
+				if(userDetail.birthday)
+					formatBirthday = moment(userDetail.birthday, Constants.FORMAT_DATE);
+				if(userDetail.joinedDate)
+					formatJoinedDate = moment(userDetail.joinedDate, Constants.FORMAT_DATE);
+				if(userDetail.expirationDate)
+					formatExpirationDate = moment(userDetail.expirationDate, Constants.FORMAT_DATE);
+
 				this.setState({
-					birthday: userDetail.birthday,
+					birthday: formatBirthday,
 			  	idNumber: userDetail.idNumber,
 			  	addresses: userDetail.addresses,
 			  	phoneNumbers: userDetail.phoneNumbers,
 			  	emails: userDetail.emails,
-			  	joinedDate: userDetail.joinedDate,
-			  	expirationDate: userDetail.expirationDate,
+			  	joinedDate: formatJoinedDate,
+			  	expirationDate: formatExpirationDate,
 				});
 			}
 		}
@@ -79,18 +89,27 @@ class UserDetail extends Component {
 		} = this.state;
 
 		const { userDetail } = this.props;
+
+		let formatBirthday, formatJoinedDate, formatExpirationDate;
+		if(birthday)
+			formatBirthday = birthday._d.toISOString();
+		if(joinedDate)
+			formatJoinedDate = joinedDate._d.toISOString();
+		if(expirationDate)
+			formatExpirationDate = expirationDate._d.toISOString();
+
 		return {
 			name: {
 				first: firstName,
 				last: lastName,
 			},
 			idNumber,
-			birthday,
+			birthday: formatBirthday,
 			addresses,
 			phoneNumbers,
 			emails,
-			joinedDate,
-			expirationDate,
+			joinedDate: formatJoinedDate,
+			expirationDate: formatExpirationDate,
 		}
 	}
 
@@ -200,6 +219,12 @@ class UserDetail extends Component {
 		});
   }
 
+  onChangeDatePicker = (field, value) => {
+  	this.setState({
+			[field]: value
+		});
+  }
+
 	render() {
 		const { userDetail, action } = this.props;
 		const formItemLayout = {
@@ -217,7 +242,7 @@ class UserDetail extends Component {
     const { addresses, phoneNumbers, emails } = userDetail;
     let addressesElement = '';
     let phoneNumbersELement = '';
-    let emailsELement = '';
+    let emailsElement = '';
 
     if(addresses) {
 	    addressesElement = addresses.map((address, index) => {
@@ -228,7 +253,6 @@ class UserDetail extends Component {
 						      	disabled={ true }
 						      	name={ `addresses${index}` }
 						      	value={ this.state.addresses[index] }
-                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -249,7 +273,6 @@ class UserDetail extends Component {
 						      	disabled={ true }
 						      	name={ `phoneNumbers${index}` }
 						      	value={ this.state.phoneNumbers[index] }
-                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -262,7 +285,7 @@ class UserDetail extends Component {
     }
 
     if(emails) {
-	    emailsELement = emails.map((email, index) => {
+	    emailsElement = emails.map((email, index) => {
 	    	return <Form.Item label={ `Email ${index + 1}` } key={ index }>
 						      <Input
 						      	placeholder={ `Email ${index + 1}` } 
@@ -270,7 +293,6 @@ class UserDetail extends Component {
 						      	disabled={ true }
 						      	name={ `emails${index}` }
 						      	value={ this.state.emails[index] }
-                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -346,7 +368,8 @@ class UserDetail extends Component {
 						      	disabled={action === 'view'}
 						      	name="birthday"
 						      	value={ this.state.birthday }
-                    onChange={ this.onChangeFormItem }
+						      	format={ Constants.FORMAT_DATE }
+                    onChange={ (value) => this.onChangeDatePicker('birthday', value) }
 						    	/>
 						    </Form.Item>
 						    <Form.Item label="ID Number">
@@ -405,13 +428,14 @@ class UserDetail extends Component {
 						      	onClick={ this.onAddEmail }
 						      />
 							  </Form.Item>
-						    { emailsELement }
+						    { emailsElement }
 						    <Form.Item label="Joined Date">
 						    	<DatePicker 
 						      	disabled={action === 'view'}
 						      	name="joinedDate"
 						      	value={ this.state.joinedDate }
-                    onChange={ this.onChangeFormItem }
+						      	format={ Constants.FORMAT_DATE }
+                    onChange={ (value) => this.onChangeDatePicker('joinedDate', value) }
 						    	/>
 						    </Form.Item>
 						    <Form.Item label="Expiration Date">
@@ -419,7 +443,8 @@ class UserDetail extends Component {
 						      	disabled={action === 'view'}
 						      	name="expirationDate"
 						      	value={ this.state.expirationDate }
-                    onChange={ this.onChangeFormItem }
+						      	format={ Constants.FORMAT_DATE }
+                    onChange={ (value) => this.onChangeDatePicker('expirationDate', value) }
 						    	/>
 						    </Form.Item>
         			</Form>
