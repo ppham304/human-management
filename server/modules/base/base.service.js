@@ -13,7 +13,6 @@ class BaseService {
 		return this.collection.find({
 			deletedAt: null,
 		})
-		.select()
 		.exec();
 	}
 
