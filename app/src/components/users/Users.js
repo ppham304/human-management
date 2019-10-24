@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Table, Button, Input } from 'antd';
 
@@ -141,6 +140,4 @@ const mapDispatchToProps = {
 	searchUsers: UsersAction.searchUsers,
 };
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

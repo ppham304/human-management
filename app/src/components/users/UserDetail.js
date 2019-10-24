@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Form, Input, DatePicker } from 'antd';
 import moment from 'moment';
@@ -479,6 +478,4 @@ const mapDispatchToProps = {
 	deleteEmail: UsersAction.deleteEmail,
 };
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

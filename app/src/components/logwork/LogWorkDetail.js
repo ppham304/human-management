@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
@@ -182,6 +181,4 @@ const mapDispatchToProps = {
 	logWork: UsersAction.logWork,
 };
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-)(LogWorkDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(LogWorkDetail);

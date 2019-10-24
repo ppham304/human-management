@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 
 import './App.css';
 import Home from './components/Home';
-import store from './redux/configStore';
+import store from './redux/stores/configStore';
 import * as Constants from './constants';
 
 class App extends Component {
