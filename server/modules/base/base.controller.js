@@ -3,12 +3,12 @@ class BaseController {
 		this.service = service;
 
 		this.load = this.load.bind(this);
-		this.getAllData = this.getAllData.bind(this);
 		this.getList = this.getList.bind(this);
 		this.getOne = this.getOne.bind(this);
 		this.create = this.create.bind(this);
 		this.update = this.update.bind(this);
 		this.delete = this.delete.bind(this);
+		this.getAllDataSelectFields = this.getAllDataSelectFields.bind(this);
 	}
 
 	async load(req, res, next) {
@@ -32,11 +32,12 @@ class BaseController {
 		API: /all
 		Method: GET
 	*/
-	async getAllData(req, res) {
+	async getAllDataSelectFields(req, res) {
 		try {
-			const list = await this.service.getAllData();
+			const list = await this.service.getAllDataSelectFields();
 			return res.json(list);
 		} catch(error) {
+			console.log(error)
 			return res.json(error);
 		}
 	}

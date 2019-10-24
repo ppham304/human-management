@@ -3,8 +3,9 @@ class BaseService {
 	  this.collection = collection;
 	}
 
-	getAllData() {
+	getAllDataSelectFields(fields) {
 		return this.collection.find({})
+		.select(fields)
 		.exec();
 	}
 
@@ -12,6 +13,7 @@ class BaseService {
 		return this.collection.find({
 			deletedAt: null,
 		})
+		.select()
 		.exec();
 	}
 

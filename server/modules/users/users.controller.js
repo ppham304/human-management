@@ -43,7 +43,7 @@ class UsersController extends BaseController {
 		}
 
 		//Get all data (include deleted user)
-		const list = await this.service.getAllData();
+		const list = await this.service.getAllShortName();
 		if(list.length === 0)
 			return short;
 
@@ -81,6 +81,7 @@ class UsersController extends BaseController {
 			const createdData = await this.service.create(data);
 			return res.json(createdData);
 		} catch(error) {
+			console.log(error);
 			return res.json(error);
 		}
 	}

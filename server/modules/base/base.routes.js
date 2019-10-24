@@ -5,7 +5,7 @@ class BaseRouter {
 		this.controller = controller;
 		this.router = new Router();
 
-		this.router.get('/all', this.controller.getAllData);
+		this.router.get('/all', this.controller.getAllDataSelectFields);
 		this.router.get('/', this.controller.getList);
 		this.router.get('/:id', this.controller.getOne);
 		this.router.post('/', this.controller.create);
