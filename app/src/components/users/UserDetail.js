@@ -92,11 +92,11 @@ class UserDetail extends Component {
 
 		let formatBirthday, formatJoinedDate, formatExpirationDate;
 		if(birthday)
-			formatBirthday = birthday._d.toISOString();
+			formatBirthday = birthday.utc().toISOString();
 		if(joinedDate)
-			formatJoinedDate = joinedDate._d.toISOString();
+			formatJoinedDate = joinedDate.utc().toISOString();
 		if(expirationDate)
-			formatExpirationDate = expirationDate._d.toISOString();
+			formatExpirationDate = expirationDate.utc().toISOString();
 
 		return {
 			name: {
@@ -368,7 +368,6 @@ class UserDetail extends Component {
 						      	disabled={action === 'view'}
 						      	name="birthday"
 						      	value={ this.state.birthday }
-						      	format={ Constants.FORMAT_DATE }
                     onChange={ (value) => this.onChangeDatePicker('birthday', value) }
 						    	/>
 						    </Form.Item>
@@ -434,7 +433,6 @@ class UserDetail extends Component {
 						      	disabled={action === 'view'}
 						      	name="joinedDate"
 						      	value={ this.state.joinedDate }
-						      	format={ Constants.FORMAT_DATE }
                     onChange={ (value) => this.onChangeDatePicker('joinedDate', value) }
 						    	/>
 						    </Form.Item>
@@ -443,7 +441,6 @@ class UserDetail extends Component {
 						      	disabled={action === 'view'}
 						      	name="expirationDate"
 						      	value={ this.state.expirationDate }
-						      	format={ Constants.FORMAT_DATE }
                     onChange={ (value) => this.onChangeDatePicker('expirationDate', value) }
 						    	/>
 						    </Form.Item>
