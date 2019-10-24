@@ -11,94 +11,103 @@ class UserDetail extends Component {
 	constructor(props) {
 	  super(props);
 	
-	  this.addresses = [];
-	  this.phoneNumbers = [];
-	  this.emails = [];
+	  this.state = {
+	  	firstName: '',
+	  	lastName: '',
+	  	shortName: '',
+	  	birthday: undefined,
+	  	idNumber: '',
+	  	addedAddress: '',
+	  	addresses: [],
+	  	addedPhoneNumber: '',
+	  	phoneNumbers: [],
+	  	addedEmail: '',
+	  	emails: [],
+	  	joinedDate: undefined,
+	  	expirationDate: undefined,
+	  }
+
+	  const { userDetail } = this.props;
+	  if(userDetail.id) {
+	  	this.onGetUserDetail(userDetail.id);
+	  }
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevPros) {
+		const { userDetail, isGettingUserDetail } = this.props;
+		if(prevPros.isGettingUserDetail && !isGettingUserDetail) {
+			const { userDetail } = this.props;
+			if(userDetail) {
+				if(userDetail.name) {
+					this.setState({
+						firstName: userDetail.name.first,
+						lastName: userDetail.name.last,
+						shortName: userDetail.name.short,
+					});
+				} else {
+					this.setState({
+						firstName: '',
+						lastName: '',
+						shortName: '',
+					});
+				}
+
+				this.setState({
+					birthday: userDetail.birthday,
+			  	idNumber: userDetail.idNumber,
+			  	addresses: userDetail.addresses,
+			  	phoneNumbers: userDetail.phoneNumbers,
+			  	emails: userDetail.emails,
+			  	joinedDate: userDetail.joinedDate,
+			  	expirationDate: userDetail.expirationDate,
+				});
+			}
+		}
+	}
+
+	dataForm = () => {
+		const { 
+			firstName, 
+			lastName, 
+			idNumber, 
+			birthday, 
+			addresses, 
+			phoneNumbers, 
+			emails, 
+			joinedDate, 
+			expirationDate 
+		} = this.state;
+
 		const { userDetail } = this.props;
-		if(userDetail.name) {
-			this.firstName.input.value = userDetail.name.first || '';
-			this.lastName.input.value = userDetail.name.last || '';
-			this.shortName.input.value = userDetail.name.short || '';
+		return {
+			name: {
+				first: firstName,
+				last: lastName,
+			},
+			idNumber,
+			birthday,
+			addresses,
+			phoneNumbers,
+			emails,
+			joinedDate,
+			expirationDate,
 		}
+	}
 
-		if(userDetail.idNumber) {
-			this.idNumber.input.value = userDetail.idNumber || '';
-		}
-
-		if(userDetail.birthday) {
-			this.birthday.picker.input.value = utils.formatDate(userDetail.birthday) || '';
-		}
-
-		if(userDetail.addresses) {
-			userDetail.addresses.map((address, index) => {
-				this.addresses[index].input.value = address || '';
-				return address;
-			});
-		}
-
-		if(userDetail.phoneNumbers) {
-			userDetail.phoneNumbers.map((phoneNumber, index) => {
-				this.phoneNumbers[index].input.value = phoneNumber || '';
-				return phoneNumber;
-			});
-		}
-
-		if(userDetail.emails) {
-			userDetail.emails.map((email, index) => {
-				this.emails[index].input.value = email || '';
-				return email;
-			});
-		}
-
-		if(userDetail.joinedDate) {
-			this.joinedDate.picker.input.value = utils.formatDate(userDetail.joinedDate) || '';
-		}
-
-		if(userDetail.expirationDate) {
-			this.expirationDate.picker.input.value = utils.formatDate(userDetail.expirationDate) || '';
-		}
-
-		this.addedAddress.input.value = '';
-		this.addedPhoneNumber.input.value = '';
-		this.addedEmail.input.value = '';
+	onGetUserDetail = (id) => {
+		const { getUserDetail } = this.props;
+		getUserDetail(id);
 	}
 
 	onAddUser = () => {
-		const { addUser, userDetail } = this.props;
-		addUser({
-			name: {
-				first: this.firstName.input.value,
-				last: this.lastName.input.value,
-			},
-			idNumber: this.idNumber.input.value,
-			birthday: this.birthday.picker.input.value,
-			addresses: userDetail.addresses,
-			phoneNumbers: userDetail.phoneNumbers,
-			emails: userDetail.emails,
-			joinedDate: this.joinedDate.picker.input.value,
-			expirationDate: this.expirationDate.picker.input.value,
-		});
+		const { addUser } = this.props;
+		addUser(this.dataForm());
 		utils.goToTopFunction();
 	}
 
 	onUpdateUser = (id) => {
-		const { updateUser, userDetail } = this.props;
-		updateUser(id, {
-			name: {
-				first: this.firstName.input.value,
-				last: this.lastName.input.value,
-			},
-			idNumber: this.idNumber.input.value,
-			birthday: this.birthday.picker.input.value,
-			addresses: userDetail.addresses,
-			phoneNumbers: userDetail.phoneNumbers,
-			emails: userDetail.emails,
-			joinedDate: this.joinedDate.picker.input.value,
-			expirationDate: this.expirationDate.picker.input.value,
-		});
+		const { updateUser } = this.props;
+		updateUser(id, this.dataForm());
 		utils.goToTopFunction();
 	}
 
@@ -122,33 +131,74 @@ class UserDetail extends Component {
 
 	onAddAddress = () => {
 		const { addAddress } = this.props;
-		addAddress(this.addedAddress.input.value);
+		const { addedAddress, addresses } = this.state;
+		addAddress(addedAddress);
+		this.setState({
+			addresses: [...addresses, addedAddress],
+			addedAddress: '',
+		});
 	}
 
 	onDeleteAddress = (index) => {
 		const { deleteAddress } = this.props;
+		const { addresses } = this.state;
 		deleteAddress(index);
+
+		this.setState({
+			addresses: [...addresses.slice(0,index), ...addresses.slice(index+1)],
+			addedAddress: '',
+		});
 	}
 
 	onAddPhoneNumber = () => {
 		const { addPhoneNumber } = this.props;
-		addPhoneNumber(this.addedPhoneNumber.input.value);
+		const { addedPhoneNumber, phoneNumbers } = this.state;
+		addPhoneNumber(addedPhoneNumber);
+		this.setState({
+			phoneNumbers: [...phoneNumbers, addedPhoneNumber],
+			addedPhoneNumber: '',
+		});
 	}
 
 	onDeletePhoneNumber = (index) => {
 		const { deletePhoneNumber } = this.props;
+		const { phoneNumbers } = this.state;
 		deletePhoneNumber(index);
+		this.setState({
+			phoneNumbers: [...phoneNumbers.slice(0,index), ...phoneNumbers.slice(index+1)],
+			addedPhoneNumber: '',
+		});
 	}
 
 	onAddEmail = () => {
 		const { addEmail } = this.props;
-		addEmail(this.addedEmail.input.value);
+		const { addedEmail, emails } = this.state;
+		addEmail(addedEmail);
+		this.setState({
+			emails: [...emails, addedEmail],
+			addedEmail: '',
+		});
 	}
 
 	onDeleteEmail = (index) => {
 		const { deleteEmail } = this.props;
+		const { emails } = this.state;
 		deleteEmail(index);
+		this.setState({
+			emails: [...emails.slice(0,index), ...emails.slice(index+1)],
+			addedEmail: '',
+		});
 	}
+
+	onChangeFormItem = (event) => {
+		var target = event.target;
+		var name = target.name;
+		var value = target.value;
+
+		this.setState({
+			[name]: value
+		});
+  }
 
 	render() {
 		const { userDetail, action } = this.props;
@@ -175,8 +225,10 @@ class UserDetail extends Component {
 						      <Input
 						      	placeholder={ `Address ${index + 1}` } 
 						      	className={ action !== "view" ? "input-with-btn" : "" }
-						      	ref={(ref) => { this.addresses[index] = ref; }}
 						      	disabled={ true }
+						      	name={ `addresses${index}` }
+						      	value={ this.state.addresses[index] }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -194,8 +246,10 @@ class UserDetail extends Component {
 						      <Input
 						      	placeholder={ `Phone Number ${index + 1}` } 
 						      	className={ action !== "view" ? "input-with-btn" : "" }
-						      	ref={(ref) => { this.phoneNumbers[index] = ref; }}
 						      	disabled={ true }
+						      	name={ `phoneNumbers${index}` }
+						      	value={ this.state.phoneNumbers[index] }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -213,14 +267,16 @@ class UserDetail extends Component {
 						      <Input
 						      	placeholder={ `Email ${index + 1}` } 
 						      	className={ action !== "view" ? "input-with-btn" : "" }
-						      	ref={(ref) => { this.emails[index] = ref; }}
 						      	disabled={ true }
+						      	name={ `emails${index}` }
+						      	value={ this.state.emails[index] }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
 						      	icon="minus" 
 						      	className={ action !== "view" ? "btn-minus-with-input" : "display-none"}
-						      	onClick={ () => this.onAddEmail(index) }
+						      	onClick={ () => this.onDeleteEmail(index) }
 						      />
 						  </Form.Item>
 	    });
@@ -260,43 +316,55 @@ class UserDetail extends Component {
         			<Form {...formItemLayout}>
         				<Form.Item label="First Name">
 						      <Input 
-						      	placeholder="First Name" 
-						      	ref={(ref) => { this.firstName = ref; }} 
+						      	placeholder="First Name"
 						      	disabled={action === 'view'}
+						      	name="firstName"
+						      	value={ this.state.firstName }
+                    onChange={ this.onChangeFormItem }
 						      />
 						    </Form.Item>
 						    <Form.Item label="Last Name">
 						      <Input 
-						      	placeholder="Last Name" 
-						      	ref={(ref) => { this.lastName = ref; }} 
+						      	placeholder="Last Name"
 						      	disabled={action === 'view'}
+						      	name="lastName"
+						      	value={ this.state.lastName }
+                    onChange={ this.onChangeFormItem }
 						      />
 						    </Form.Item>
 						    <Form.Item label="Short Name">
 						      <Input 
-						      	placeholder="Short Name" 
-						      	ref={(ref) => { this.shortName = ref; }} 
+						      	placeholder="Short Name"
 						      	disabled={ true }
+						      	name="shortName"
+						      	value={ this.state.shortName }
+                    onChange={ this.onChangeFormItem }
 						      />
 						    </Form.Item>
 						    <Form.Item label="Date of birth">
 						    	<DatePicker 
-						    		ref={(ref) => { this.birthday = ref; }}
 						      	disabled={action === 'view'}
+						      	name="birthday"
+						      	value={ this.state.birthday }
+                    onChange={ this.onChangeFormItem }
 						    	/>
 						    </Form.Item>
 						    <Form.Item label="ID Number">
 						      <Input 
 						      	placeholder="ID Number" 
-						      	ref={(ref) => { this.idNumber = ref; }} 
 						      	disabled={action === 'view'}
+						      	name="idNumber"
+						      	value={ this.state.idNumber }
+                    onChange={ this.onChangeFormItem }
 						      />
 						    </Form.Item>
         				<Form.Item label="Add Address" className={ action !== "view" ? "display-block" : "display-none" }>
 						      <Input
 						      	placeholder="Address" 
 						      	className="input-with-btn"
-						      	ref={(ref) => { this.addedAddress = ref; }}
+						      	name="addedAddress"
+						      	value={ this.state.addedAddress }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -310,7 +378,9 @@ class UserDetail extends Component {
 						      <Input
 						      	placeholder="Phone Number" 
 						      	className="input-with-btn"
-						      	ref={(ref) => { this.addedPhoneNumber = ref; }}
+						      	name="addedPhoneNumber"
+						      	value={ this.state.addedPhoneNumber }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -324,7 +394,9 @@ class UserDetail extends Component {
 						      <Input
 						      	placeholder="Email" 
 						      	className="input-with-btn"
-						      	ref={(ref) => { this.addedEmail = ref; }}
+						      	name="addedEmail"
+						      	value={ this.state.addedEmail }
+                    onChange={ this.onChangeFormItem }
 						      />
 						      <Button 
 						      	type="primary" 
@@ -336,14 +408,18 @@ class UserDetail extends Component {
 						    { emailsELement }
 						    <Form.Item label="Joined Date">
 						    	<DatePicker 
-						    		ref={(ref) => { this.joinedDate = ref; }}
 						      	disabled={action === 'view'}
+						      	name="joinedDate"
+						      	value={ this.state.joinedDate }
+                    onChange={ this.onChangeFormItem }
 						    	/>
 						    </Form.Item>
 						    <Form.Item label="Expiration Date">
 						    	<DatePicker 
-						    		ref={(ref) => { this.expirationDate = ref; }}
 						      	disabled={action === 'view'}
+						      	name="expirationDate"
+						      	value={ this.state.expirationDate }
+                    onChange={ this.onChangeFormItem }
 						    	/>
 						    </Form.Item>
         			</Form>
@@ -361,11 +437,13 @@ class UserDetail extends Component {
 const mapStateToProps = (state) => {
 	return {
 		userDetail: UsersSelector.getUserDetail(state),
+		isGettingUserDetail: UsersSelector.getIsGettingUserDetail(state),
 		action: UsersSelector.getAction(state),
 	};
 }
 
 const mapDispatchToProps = {
+	getUserDetail: UsersAction.getUserDetail,
 	addUser: UsersAction.addUser,
 	updateUser: UsersAction.updateUser,
 	getDisplayUpdateUser: UsersAction.getDisplayUpdateUser,

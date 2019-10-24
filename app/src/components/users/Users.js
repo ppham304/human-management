@@ -21,11 +21,6 @@ class Users extends Component {
 		getListUser();
 	}
 
-	onGetUserDetail = (record) => {
-		const { getUserDetail } = this.props;
-		getUserDetail(record._id);
-	}
-
 	onDeleteUser = (id) => {
 		const { deleteUser } = this.props;
 		deleteUser(id);
@@ -34,6 +29,11 @@ class Users extends Component {
 	onDisplayAddUser = () => {
 		const { getDisplayAddUser } = this.props;
 		getDisplayAddUser();
+	}
+
+	onDisplayViewUserDetail = (record) => {
+		const { getDisplayViewUserDetail } = this.props;
+		getDisplayViewUserDetail(record._id);
 	}
 
 	onSearch = (value) => {
@@ -57,7 +57,7 @@ class Users extends Component {
 	    	{
 	    		action === "view" || action === "add" || action === "update"
 	    		?
-        	<UserDetail show={ action === "view" } />
+        	<UserDetail show={ action === "view" || action === "add" || action === "update" } />
 	    		:
 	    		<React.Fragment>
 	    			<div className="add-search-div">
@@ -80,7 +80,7 @@ class Users extends Component {
 					    	title="Name" 
 					    	dataIndex="name" 
 					    	key="name"
-					    	render={ (text, record) => <a onClick={ () => this.onGetUserDetail(record) }>{ record.name.full }</a> }
+					    	render={ (text, record) => <a onClick={ () => this.onDisplayViewUserDetail(record) }>{ record.name.full }</a> }
 					    />
 					    <Column 
 					    	title="Joined Date" 
@@ -135,8 +135,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	getListUser: UsersAction.getListUser,
-	getUserDetail: UsersAction.getUserDetail,
 	getDisplayAddUser: UsersAction.getDisplayAddUser,
+	getDisplayViewUserDetail: UsersAction.getDisplayViewUserDetail,
 	deleteUser: UsersAction.deleteUser,
 	searchUsers: UsersAction.searchUsers,
 };

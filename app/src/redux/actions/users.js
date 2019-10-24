@@ -221,15 +221,27 @@ export function logWorkFailed(error) {
 	}
 }
 
-export function getDisplayLogWork() {
+export function getDisplayLogWork(id) {
 	return {
 		type: UsersType.DISPLAY_LOG_WORK,
+		payload: {
+			id: id
+		},
 	}
 }
 
 export function getDisplayAddUser() {
 	return {
 		type: UsersType.DISPLAY_ADD_USER,
+	}
+}
+
+export function getDisplayViewUserDetail(id) {
+	return {
+		type: UsersType.DISPLAY_VIEW_USER_DETAIL,
+		payload: {
+			id: id
+		},
 	}
 }
 

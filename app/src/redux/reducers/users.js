@@ -38,8 +38,6 @@ function UsersReducer(state = initState, action) {
 			return {
 				...state,
 				isGettingUserDetail: true,
-				action: 'view',
-				error: '',
 			}
 		case UsersType.GET_USER_DETAIL_SUCCESS:
 			return {
@@ -242,6 +240,9 @@ function UsersReducer(state = initState, action) {
 		case UsersType.DISPLAY_LOG_WORK:
 			return {
 				...state,
+				userDetail: {
+					id: action.payload.id,
+				},
 				action: 'log',
 				error: '',
 			}
@@ -249,6 +250,15 @@ function UsersReducer(state = initState, action) {
 			return {
 				...state,
 				action: 'add',
+				error: '',
+			}
+		case UsersType.DISPLAY_VIEW_USER_DETAIL:
+			return {
+				...state,
+				userDetail: {
+					id: action.payload.id,
+				},
+				action: 'view',
 				error: '',
 			}
 		case UsersType.DISPLAY_UPDATE_USER:

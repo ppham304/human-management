@@ -26,6 +26,10 @@ export const getIsDeletingUser = (state) => {
 	return state.users.isDeletingUser;
 }
 
+export const getIsLoggingWork = (state) => {
+	return state.users.isLoggingWork;
+}
+
 export const getSearchValue = (state) => {
 	return state.users.searchValue;
 }

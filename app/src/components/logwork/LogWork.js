@@ -20,15 +20,14 @@ class LogWork extends Component {
 		getListUser();
 	}
 
-	onGetUserDetail = (record) => {
-		const { getUserDetail } = this.props;
-		getUserDetail(record._id);
+	onDisplayViewUserDetail = (record) => {
+		const { getDisplayViewUserDetail } = this.props;
+		getDisplayViewUserDetail(record._id);
 	}
 
 	onDisplayLogWork = (record) => {
-		this.onGetUserDetail(record);
 		const { getDisplayLogWork } = this.props;
-		getDisplayLogWork();
+		getDisplayLogWork(record._id);
 	}
 
 	onSearch = (value) => {
@@ -67,7 +66,7 @@ class LogWork extends Component {
 					    	title="Name" 
 					    	dataIndex="name" 
 					    	key="name"
-					    	render={ (text, record) => <a onClick={ () => this.onGetUserDetail(record) }>{ record.name.full }</a> }
+					    	render={ (text, record) => <a onClick={ () => this.onDisplayViewUserDetail(record) }>{ record.name.full }</a> }
 					    />
 					    <Column 
 					    	title="Worked Hours" 
@@ -109,7 +108,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
 	getListUser: UsersAction.getListUser,
-	getUserDetail: UsersAction.getUserDetail,
+	getDisplayViewUserDetail: UsersAction.getDisplayViewUserDetail,
 	getDisplayLogWork: UsersAction.getDisplayLogWork,
 	searchUsers: UsersAction.searchUsers,
 };
