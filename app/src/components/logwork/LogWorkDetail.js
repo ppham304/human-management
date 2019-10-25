@@ -166,19 +166,4 @@ class LogWorkDetail extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-	return {
-		userDetail: UsersSelector.getUserDetail(state),
-		action: UsersSelector.getAction(state),
-		isGettingUserDetail: UsersSelector.getIsGettingUserDetail(state),
-		isLoggingWork: UsersSelector.getIsLoggingWork(state),
-	};
-}
-
-const mapDispatchToProps = {
-	getUserDetail: UsersAction.getUserDetail,
-	getCloseForm: UsersAction.getCloseForm,
-	logWork: UsersAction.logWork,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogWorkDetail);
+export default LogWorkDetail;

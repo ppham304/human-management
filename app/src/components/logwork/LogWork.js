@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Button, Input } from 'antd';
 
-import LogWorkDetail from './LogWorkDetail';
+import LogWorkDetail from '../../containers/logwork/LogWorkDetail';
 import * as UsersAction from '../../redux/actions/users';
 import * as UsersSelector from '../../redux/selectors/users';
 
@@ -97,19 +97,4 @@ class LogWork extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-	return {
-		listUser: UsersSelector.getListUser(state),
-		searchValue: UsersSelector.getSearchValue(state),
-		action: UsersSelector.getAction(state),
-	};
-}
-
-const mapDispatchToProps = {
-	getListUser: UsersAction.getListUser,
-	getDisplayViewUserDetail: UsersAction.getDisplayViewUserDetail,
-	getDisplayLogWork: UsersAction.getDisplayLogWork,
-	searchUsers: UsersAction.searchUsers,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LogWork);
+export default LogWork;

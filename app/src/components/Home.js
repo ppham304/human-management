@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { Switch, Route } from "react-router-dom";
 
 import WelcomePage from './welcome/WelcomePage';
-import Users from './users/Users';
-import LogWork from './logwork/LogWork';
+import Users from '../containers/users/Users';
+import LogWork from '../containers/logwork/LogWork';
 import * as UsersAction from '../redux/actions/users';
 import * as UsersSelector from '../redux/selectors/users';
 import * as utils from '../utils/common';

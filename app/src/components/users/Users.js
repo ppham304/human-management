@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table, Button, Input } from 'antd';
 
-import UserDetail from './UserDetail';
+import UserDetail from '../../containers/users/UserDetail';
 import * as UsersAction from '../../redux/actions/users';
 import * as UsersSelector from '../../redux/selectors/users';
 import * as utils from '../../utils/common';
@@ -123,21 +123,4 @@ class Users extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-	return {
-		listUser: UsersSelector.getListUser(state),
-		searchValue: UsersSelector.getSearchValue(state),
-		action: UsersSelector.getAction(state),
-		error: UsersSelector.getError(state),
-	};
-}
-
-const mapDispatchToProps = {
-	getListUser: UsersAction.getListUser,
-	getDisplayAddUser: UsersAction.getDisplayAddUser,
-	getDisplayViewUserDetail: UsersAction.getDisplayViewUserDetail,
-	deleteUser: UsersAction.deleteUser,
-	searchUsers: UsersAction.searchUsers,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default Users;
